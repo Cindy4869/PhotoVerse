@@ -31,10 +31,11 @@
   
   .auth-form input {
     width: 95%;
-    padding: 1rem 0.25vw;
+    padding: 1rem 0.25vw 0.5rem;
     background: transparent;
     border: none;
     border-bottom: 1px solid #000000;
+    outline: none;
   }
   
   .auth-button, .toggle-button {

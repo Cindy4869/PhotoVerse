@@ -1,0 +1,63 @@
+.modal-overlay{
+    /* display: none; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.modal-container{
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
+    width: fit-content;
+    height: 80vh;
+    margin: 10vh auto;
+    border-radius: 20px;
+    box-shadow: 0 0 3vw rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.modal-image{
+    /* object-fit: contain; */
+    width: 100%;
+    max-width:50vw;
+    display: block;
+    
+}
+
+.modal-details{
+    margin-right: 2vw;
+}
+
+
+.post-author{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+#author-pic{
+    width: 30px;
+}
+
+.post-author p{
+    font-size: x-small;
+    color: #55534f;
+}
+
+.modal-details h2{
+    width: 30vw;
+    margin-top: 0.7rem;
+    font-size: large;
+}
+#post-content{
+    font-size: small;
+    overflow-wrap: break-word;
+}

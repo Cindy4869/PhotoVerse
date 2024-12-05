@@ -3,8 +3,11 @@ import './authentication.css';
 import './landing.css';
 import './home.css';
 import './modal.css';
+import './user.css';
 import landing_img from '../imgs/landing-pic.jpg';
 import auth_img from '../imgs/auth-pic.jpg';
+import user_icon from '../imgs/profile-user.png';
+import search_icon from '../imgs/magnifying-glass.png';
 
 function Authentication() {
     const [isLogin, setIsLogin] = useState(true);
@@ -166,18 +169,19 @@ function Authentication() {
       <div className="home-container">
         <header className="home-header">
           <h1 className="logo" onClick={() => window.location.href = '/home'}>PHOTOVERSE</h1>
-          <input
-            type="text"
-            placeholder="Search posts..."
-            value={searchQuery}
-            onChange={handleSearch}
-            className="search-input"
-          />
-          <div className="user-info" onClick={() => window.location.href = '/profile'}>
-            {username}
+          <div className='search-bar'>
+            <img src={search_icon} className='search-icon'/>
+            <input
+              type="text"
+              placeholder= "Search posts..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="search-input"
+            />
           </div>
+          <img src={user_icon} className='user-icon' onClick={() => window.location.href = '/profile'} />
         </header>
-        <div className="post-grid">
+        <div className="post-container">
           {filteredPosts.map(post => (
             <div key={post.id} className="post-card" onClick={() => handlePostClick(post)}>
               <img src={post.image} alt={post.title} className="post-image" />
@@ -190,12 +194,17 @@ function Authentication() {
         </div>
         {selectedPost && (
           <div className="modal-overlay" onClick={handleCloseModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <button className="close-button" onClick={handleCloseModal}>X</button>
-              <h2>{selectedPost.title}</h2>
+            <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+              {/* <button className="close-button" onClick={handleCloseModal}>X</button> */}
               <img src={selectedPost.image} alt={selectedPost.title} className="modal-image" />
-              <p><strong>Author:</strong> {selectedPost.author}</p>
-              <p><strong>Description:</strong> {selectedPost.description}</p>
+              <div className='modal-details'>
+                <div className='post-author'>
+                  <img src={user_icon} id='author-pic'/> {/* replace with user's own profile pic if we have one*/}
+                  <p>{selectedPost.author}</p>
+                </div>
+                <h2>{selectedPost.title}</h2>
+                <p id="post-content">{selectedPost.description}</p>
+              </div>
             </div>
           </div>
         )}
@@ -229,24 +238,31 @@ function Authentication() {
     };
   
     return (
-      <div className="user-container">
+      <div className="user-page">
         <header className="user-header">
           <h1 className="logo" onClick={() => window.location.href = '/home'}>PHOTOVERSE</h1>
-          <input
-            type="text"
-            placeholder="Search posts..."
-            value={searchQuery}
-            onChange={handleSearch}
-            className="search-input"
-          />
-          <div className="user-info">
-            {username}
-            <button onClick={handleLogout} className="logout-button">Logout</button>
+          <div className='search-bar'>
+            <img src={search_icon} className='search-icon'/>
+            <input
+              type="text"
+              placeholder= "Search posts..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="search-input"
+            />
           </div>
-        </header>
-        <div className="profile-content">
-          <h2>{username}'s Profile</h2>
-          {/* Add more profile-related content here */}
+          <p className='logout-button' onClick={handleLogout}>LOG OUT</p>
+        </header> 
+        <div className='user-profile-container'>
+          <div className="profile">
+            <img src={user_icon} className='profile-pic'/>
+            <h2>{username}</h2>
+            <p>Put personal description here</p>
+            <button className="create-post">CREATE POST</button>
+          </div>
+          <div className='user-post-container'>
+              {/* user posts here */}
+          </div>
         </div>
       </div>
     );

@@ -1,30 +1,61 @@
 .home-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
     font-family: Arial, sans-serif;
   }
   
   .home-header {
+    position: fixed;
+    width: 100vw;
+    height: 10vh;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    background-color: rgb(255, 255, 255);
   }
   
   .logo {
+    padding-left: 3rem;
     font-size: 2rem;
-    color: #007bff;
+    background:linear-gradient(45deg, rgb(117, 105, 92) 0%, rgb(174, 162, 152) 100%); /* Gradient colors */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     cursor: pointer;
+  }
+
+  .search-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
   }
   
   .search-input {
-    padding: 10px;
+    width: 35vw;
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 300px;
+    padding: 1rem 1rem 0.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+    outline: none;
+  }
+
+  .search-icon{
+    width: 40px;
+    padding-top: 0.75rem;
+  }
+
+  .user-icon{
+    cursor: pointer;
+    width: 50px;
+    padding-right: 3rem;
+  }
+
+  .user-icon:hover{
+    filter: invert(42%) sepia(13%) saturate(546%) hue-rotate(350deg) brightness(94%) contrast(83%);
   }
   
   .user-info {
@@ -33,83 +64,49 @@
     cursor: pointer;
   }
   
-  .post-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+  .post-container {
+    width: 80vw;
+    max-height: 80vh;
+    margin: 10vw auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 3vw;
+    justify-content: flex-start;
   }
   
   .post-card {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width:10vw;
     overflow: hidden;
-    transition: transform 0.3s;
   }
   
-  .post-card:hover {
-    transform: scale(1.05);
-  }
   
   .post-image {
+    max-width: 10vw;
     width: 100%;
-    height: 150px;
-    object-fit: cover;
+    
+    filter: brightness(1);
+    transition: transform 0.3s;
+  }
+  .post-image:hover {
+    filter: brightness(1.1);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   }
   
   .post-details {
-    padding: 15px;
+    /* text-align: center; */
+    padding: 0.5rem 0 0 0.25rem;
+    overflow-wrap: break-word;
   }
   
   .post-details h3 {
-    margin: 0 0 10px;
-    font-size: 1.2rem;
+    margin: 0 0 0 0;
+    font-size: 1rem;
   }
   
   .post-details p {
-    margin: 0;
+    margin: 0.5rem 0 0 0;
     color: #666;
-  }
-  
-  /* UserPage.css */
-  
-  .user-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .user-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .logout-button {
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .logout-button:hover {
-    background-color: #c82333;
-  }
-  
-  .profile-content {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .profile-content h2 {
-    margin: 0 0 20px;
+    font-size: x-small;
   }
   

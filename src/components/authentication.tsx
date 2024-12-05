@@ -3,6 +3,8 @@ import './authentication.css';
 import './landing.css';
 import './home.css';
 import './modal.css';
+import landing_img from '../imgs/landing-pic.jpg';
+import auth_img from '../imgs/auth-pic.jpg';
 
 function Authentication() {
     const [isLogin, setIsLogin] = useState(true);
@@ -44,59 +46,72 @@ function Authentication() {
     };
   
     return (
-      <div className="auth-container">
-        <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
-        <form onSubmit={handleSubmit} className="auth-form">
-          {!isLogin && (
-            <input
+      <div className="auth-page">
+        <img src={auth_img} id="auth-img"/>
+        <div className='auth-container'>
+          <h2 id="auth-title">{isLogin ? 'Log into Photoverse' : 'Create Your Account'}</h2>
+          <form onSubmit={handleSubmit} className="auth-form">
+            {!isLogin && (<div>
+              <p className='input-title'>USERNAME</p>
+              <input
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-            />
-          )}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {!isLogin && (
+              />
+            </div>
+            )}
+            <p className='input-title'>EMAIL ADDRESS</p>
             <input
-              type="password"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              type="email"
+              placeholder="name@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
-          )}
-          <button type="submit" className="auth-button">
-            {isLogin ? 'Login' : 'Sign Up'}
+            <p className='input-title'>PASSWORD</p>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            {!isLogin && (
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+            )}
+            <button type="submit" className="auth-button">
+              {isLogin ? 'Login' : 'Sign Up'}
+            </button>
+          </form>
+          <button onClick={handleToggle} className="toggle-button">
+            {isLogin ? 'Need an account? Sign Up' : 'Have an account? Log in'}
           </button>
-        </form>
-        <button onClick={handleToggle} className="toggle-button">
-          {isLogin ? 'Need an account? Sign Up' : 'Have an account? Login'}
-        </button>
+        </div>
       </div>
     );
   }
   
   function LandingPage({ onLoginClick, onSignUpClick }: { onLoginClick: () => void; onSignUpClick: () => void }) {
     return (
-      <div className="landing-container">
-        <h1>Welcome to PhotoVerse</h1>
-        <p>Connecting photographers with clients seamlessly.</p>
-        <button onClick={onLoginClick} className="landing-button">Login</button>
-        <button onClick={onSignUpClick} className="landing-button">Sign Up</button>
+      <div className="landing-page">
+        <img src={landing_img} id="landing-img"/>
+        <div className='landing-text'>
+          <h2 id = "landing-title-one">Welcome to</h2>
+          <h1 id = "landing-title-two">Photoverse</h1>
+          <p>Connecting photographers with clients seamlessly.</p>
+        </div>
+        <div className='landing-buttons'>
+          <button onClick={onLoginClick} className="landing-button">LOG IN</button>
+          <button onClick={onSignUpClick} className="landing-button">SIGN UP</button>
+        </div>
       </div>
     );
   }

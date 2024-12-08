@@ -1,0 +1,58 @@
+.create-page {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.create-header {
+  position: fixed;
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+}
+
+.form-container {
+  width: 100%;
+  max-width: 800px;
+  max-height: 80vh;
+  margin: 10vw auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.text-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #252524;
+  border-radius: 0;
+}
+
+.text-field:focus {
+  outline: none;
+}
+
+input[type="file"]::file-selector-button {
+  background-color: white;
+  border-color: black;
+  border-width: 1px;
+  padding: 0.5rem 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.create-post {
+  margin-top: 5rem;
+  background-color: #252524;
+  color: #ffffff;
+  padding: 1rem;
+  font-weight: bold;
+  font-size: 16px;
+}

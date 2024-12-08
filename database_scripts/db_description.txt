@@ -1,0 +1,37 @@
+Entities:
+Users: Each user item stores an account information.
+Posts: Each post item stores a posts created by a user.
+Comments: Each comment item stores a comment that a user write on a post.
+Likes: Each like item stores a like relationship between a user and a post (i.e. the user liked the post).
+
+A User can create many posts.
+A User can create many comments on different posts.
+A User can like many Posts.
+A Post can have many comments.
+A post can have many Likes.
+
+Users table:
+user_id             INT                 Primary key
+username            VARCHAR(255)        UNIQUE, NOT NULL
+email               VARCHAR(255)        UNIQUE, NOT NULL
+password            VARCHAR(255)        NOT NULL                (for simplicity we are not hashing passwords)
+
+Posts table:
+post_id             INT                 Primary key
+author_id           INT                 Foreign key Users(user_id), NOT NULL
+content             TEXT                NOT NULL
+img_reference       TEXT        
+creation_time       DATETIME            NOT NULL, DEFAULT CURRENT_TIMESTAMP
+
+Comments table:
+comment_id          INT                 Promary key
+post_id             INT                 Foreign key Posts(post_id), NOT NULL
+author_id           INT                 Foreign key Users(user_id), NOT NULL
+content             TEXT                NOT NULL
+creation_time       DATETIME            NOT NULL, DEFAULT CURRENT_TIMESTAMP
+
+Likes table:
+like_id             INT                 Promary key
+post_id             INT                 Foreign key Posts(post_id), NOT NULL
+user_id             INT                 Foreign key Users(user_id), NOT NULL
+creation_time       DATETIME            NOT NULL, DEFAULT CURRENT_TIMESTAMP

@@ -7,7 +7,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.120",
+    "@types/node": "^20.17",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "body-parser": "^1.20.3",
@@ -24,6 +24,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+<<<<<<< HEAD
+=======
+    "server": "node server.js",
+>>>>>>> a316581125766ad1923edb2fb6496aea45c9cc3e
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -46,5 +50,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:4000"
 }

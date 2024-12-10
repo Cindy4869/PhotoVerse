@@ -1,9 +1,5 @@
-const postRoutes = require("./post");
-
-module.exports = function (app) {
-  app.get("/", (req, res) => {
-    res.send("Welcome to Photoverse!");
-  });
-
-  app.use("/api/posts", postRoutes); // Use the post routes under "/api/posts"
+module.exports = function (app, router) {
+  require("./post.js")(router);
+  // require('./tasks.js')(router);
+  app.use("/api", router);
 };

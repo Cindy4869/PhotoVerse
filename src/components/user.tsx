@@ -3,7 +3,7 @@ import search_icon from "../imgs/magnifying-glass.png";
 import user_icon from "../imgs/profile-user.png";
 import "./user.css";
 import { useUser } from "../context/UserContext";
-import { useParams, useNavigate  } from "react-router-dom";
+import { useParams, useNavigate, useLocation  } from "react-router-dom";
 
 
 type UserData = {
@@ -17,13 +17,17 @@ function UserPage() {
 
  
   
-  const { userId, setUserId } = useUser();
+  // const { userId, setUserId } = useUser();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   // const [userId, setUserId] = useState<number | null>(null);
   const [userPosts, setUserPosts] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Parse the query string
+  const params = new URLSearchParams(location.search);
+  const userId = params.get("userId");
   //   useEffect(() => {
   //     // Retrieve logged-in user from localStorage
   //     const loggedInUser = localStorage.getItem("loggedInUser");
@@ -55,7 +59,7 @@ function UserPage() {
 
     const fetchUserPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/posts?author_id=${userId}`);
+        const response = await fetch(`http://localhost:4000/api/posts/${userId}`);
         if (response.ok) {
           const data = await response.json();
           setUserPosts(data);
@@ -122,7 +126,7 @@ function UserPage() {
           <p>Posts created by user with ID 1</p> */}
           <button
             className="create-post"
-            onClick={() => (window.location.href = "/create")}
+            onClick={() => (window.location.href = `/create?userId=${userId}`)}
           >
             CREATE POST
           </button>

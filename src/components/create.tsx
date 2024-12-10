@@ -3,9 +3,11 @@ import search_icon from "../imgs/magnifying-glass.png";
 import user_icon from "../imgs/profile-user.png";
 import "./create.css";
 import { useUser } from "../context/UserContext";
+import { useLocation } from "react-router-dom";
+
 
 function CreatePost() {
-  const { userId, setUserId } = useUser();
+  // const { userId, setUserId } = useUser();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
@@ -13,6 +15,11 @@ function CreatePost() {
   const [price, setPrice] = useState<number>(0);
   const [style, setStyle] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
+
+  // Parse the query string
+  const params = new URLSearchParams(location.search);
+  const userId = params.get("userId");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -29,7 +36,11 @@ function CreatePost() {
 
     const formData = new FormData();
     formData.append("post_id", String(Math.floor(Math.random() * 100000))); // Generate random post_id
-    formData.append("author_id", "1"); // Replace with dynamic user ID
+    if (userId) {
+      formData.append("author_id", userId);
+    } else {
+      console.error("userId is null.");
+    }// Replace with dynamic user ID
     formData.append("content", description);
     formData.append("post_type", String(postType)); // Convert number to string
     formData.append("price", String(price)); // Convert number to string
@@ -60,7 +71,7 @@ function CreatePost() {
   return (
     <div className="create-page">
       <header className="create-header">
-        <h1 className="logo" onClick={() => (window.location.href = "/home")}>
+        <h1 className="logo" onClick={() => (window.location.href = `/home?userId=${userId}`)}>
           PHOTOVERSE
         </h1>
         <div className="search-bar">
@@ -76,7 +87,7 @@ function CreatePost() {
         <img
           src={user_icon}
           className="user-icon"
-          onClick={() => (window.location.href = "/profile")}
+          onClick={() => (window.location.href = `/profile?userId=${userId}`)}
           alt="User profile"
         />
       </header>

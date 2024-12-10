@@ -5,13 +5,13 @@ import "./home.css";
 import "./modal.css";
 import { useUser } from "../context/UserContext";
 // import { time } from "console";
-// import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 
 function HomePage() {
-  const { userId, setUserId } = useUser();
-  // const [username, setUsername] = useState("");
+  // const { userId, setUserId } = useUser();
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState(2);
   const [sortDate, setSortDate] = useState<"newest" | "oldest">("newest");
@@ -19,7 +19,12 @@ function HomePage() {
   const [filterStyle, setFilterStyle] = useState("All");
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const location = useLocation();
 
+  // Parse the query string
+  const params = new URLSearchParams(location.search);
+  const userId = params.get("userId");
+  
   type Post = {
     post_id: number;
     author_id: number;
@@ -42,7 +47,7 @@ function HomePage() {
     // Fetch posts from backend
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/posts?author_id=${userId}");
+        const response = await fetch(`http://localhost:4000/api/posts?author_id=${userId}`);
         if (response.ok) {
           const data: Post[] = await response.json();
           setPosts(data);
@@ -94,7 +99,7 @@ function HomePage() {
   return (
     <div className="home-container">
       <header className="home-header">
-        <h1 className="logo" onClick={() => (window.location.href = `/home`)}>
+        <h1 className="logo" onClick={() => (window.location.href = `/home?userId=${userId}`)}>
           PHOTOVERSE
         </h1>
         <div className="search-bar">
@@ -111,7 +116,7 @@ function HomePage() {
           src={user_icon}
           alt="User profile"
           className="user-icon"
-          onClick={() => (window.location.href = "/profile")}
+          onClick={() => (window.location.href = `/profile?userId=${userId}`)}
         />
       </header>
       <div className="filters">

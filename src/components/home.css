@@ -110,7 +110,7 @@
 
 .filter-dropdown{
   font-size: 1rem;
-  border-radius: 10px;
+  border: none;
   width: 20vw;
   height: 5vh;
   text-align: center;
@@ -124,24 +124,24 @@
 .filter-dropdown:hover{
   cursor: pointer;
   filter: brightness(1.1);
+  box-shadow:rgb(117, 105, 92)
 }
 
 .filter-dropdown option {
   padding: 10px;
-  background-color: #CCC3BB;
-  border-radius: 10px;
+  background-color: white;
 }
 .filter-dropdown option:hover {
   padding: 10px;
   background-color: #CCC3BB;
-  border-radius: 10px;
 }
+
 
 
 .post-container {
   width: 80vw;
   max-height: 80vh;
-  margin: 10vw auto;
+  margin: 30vh auto 5vh auto;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

@@ -4,7 +4,6 @@ import auth_img from "../imgs/auth-pic.jpg";
 import { useUser } from "../context/UserContext";
 
 function Authentication() {
-
   const handleToggle = () => {
     setIsLogin(!isLogin);
   };
@@ -16,7 +15,9 @@ function Authentication() {
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const API_BASE_URL = "http://localhost:4000/api/auth";
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault(); // Prevent page reload
     setError("");
 
@@ -26,10 +27,8 @@ function Authentication() {
       return;
     }
 
-    const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
-    const body = isLogin
-      ? { email, password }
-      : { username, email, password };
+    const endpoint = `${API_BASE_URL}/${isLogin ? "login" : "register"}`;
+    const body = isLogin ? { email, password } : { username, email, password };
 
     try {
       const response = await fetch(endpoint, {
@@ -42,12 +41,10 @@ function Authentication() {
       if (response.ok) {
         if (isLogin) {
           // Redirect after successful login
-          setUserId(data.user.userId);
+          setUserId(data.user.user_Id);
 
           window.location.href = `/home?userId=${data.user.user_id}`;
-          
         } else {
-          
           alert("Registration successful! Please log in.");
           setIsLogin(true);
         }
@@ -60,11 +57,9 @@ function Authentication() {
     }
   };
 
- 
-
   return (
     <div className="auth-page">
-      <img src={auth_img} id="auth-img" />
+      <img src={auth_img} id="auth-img" alt="Authentication" />
       <div className="auth-container">
         <h2 id="auth-title">
           {isLogin ? "Log into Photoverse" : "Create Your Account"}
@@ -110,6 +105,7 @@ function Authentication() {
           <button type="submit" className="auth-button">
             {isLogin ? "Login" : "Sign Up"}
           </button>
+          {error && <p className="error-message">{error}</p>}
         </form>
         <button onClick={handleToggle} className="toggle-button">
           {isLogin ? "Need an account? Sign Up" : "Have an account? Log in"}

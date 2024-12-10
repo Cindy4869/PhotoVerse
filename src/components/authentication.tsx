@@ -1,13 +1,14 @@
 import { useState } from "react";
 import "./authentication.css";
 import auth_img from "../imgs/auth-pic.jpg";
+import { useUser } from "../context/UserContext";
 
 function Authentication() {
 
   const handleToggle = () => {
     setIsLogin(!isLogin);
   };
-
+  const { setUserId } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState(""); // New field
@@ -41,8 +42,12 @@ function Authentication() {
       if (response.ok) {
         if (isLogin) {
           // Redirect after successful login
-          window.location.href = `/dashboard?userId=${data.user.user_id}`; // Adjust route
+          setUserId(data.user.userId);
+
+          window.location.href = `/home?userId=${data.user.user_id}`;
+          
         } else {
+          
           alert("Registration successful! Please log in.");
           setIsLogin(true);
         }

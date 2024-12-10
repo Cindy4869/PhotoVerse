@@ -1,8 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
 
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import Authentication from "./components/authentication";
 import HomePage from "./components/home";
 import LandingPage from "./components/landing";
@@ -41,6 +41,7 @@ function App() {
                 )
               }
             />
+            
             <Route path="/home" element={<HomePage />} />
             <Route path="/profile" element={<UserPage />} />
             <Route path="/create" element={<CreatePost />} />
@@ -49,6 +50,25 @@ function App() {
     </UserProvider>
     
   );
+  
 }
+
+// const HomeWrapper = () => {
+//   const { initializeUser, user } = useContext(UserContext);
+//   const location = useLocation();
+//   const params = new URLSearchParams(location.search);
+//   const userId = params.get("user_id");
+
+//   useEffect(() => {
+//     console.log("userId from URL:", userId); // Debug query parameter
+//     if (userId) {
+//       initializeUser(userId);
+//     }
+//   }, [userId, initializeUser]);
+
+//   if (!user) return <p>Loading user data...</p>;
+
+//   return <HomePage />;
+// };
 
 export default App;

@@ -65,6 +65,19 @@ module.exports = function (router) {
   });
 
   /**
+   * GET /api/posts - Get all posts by author_id
+   */
+  postsRoute.get(async (req, res) => {
+    try {
+      const posts = await PostData.find({ author_id: req.params.author_id });
+      res.status(200).json(posts);
+    } catch (error) {
+      console.error("Error retrieving posts:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  /**
    * GET /api/posts/:id - Get a specific post by ID
    */
   postsIdRoute.get(async (req, res) => {

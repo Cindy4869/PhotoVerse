@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import search_icon from "../imgs/magnifying-glass.png";
 import user_icon from "../imgs/profile-user.png";
 import "./home.css";
 import "./modal.css";
-import { UserContext } from "../context/UserContext";
+import { useUser } from "../context/UserContext";
+// import { time } from "console";
+// import { useParams } from "react-router-dom";
+
 
 
 function HomePage() {
-  const [username, setUsername] = useState("");
+  const { userId, setUserId } = useUser();
+  // const [username, setUsername] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedType, setSelectedType] = useState(2);
+  const [sortDate, setSortDate] = useState<"newest" | "oldest">("newest");
+  const [filterPrice, setFilterPrice] = useState("All");
+  const [filterStyle, setFilterStyle] = useState("All");
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
@@ -24,20 +32,17 @@ function HomePage() {
   };
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("loggedInUser");
-    if (loggedInUser) {
-      const userData = JSON.parse(localStorage.getItem(loggedInUser) || "{}");
-      if (userData.username) {
-        setUsername(userData.username);
-      }
-    } else {
-      window.location.replace("/");
-    }
-
+    
+    // if (!user) {
+    //   
+    //   window.location.replace("/au");
+      
+      
+    // }
     // Fetch posts from backend
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/posts");
+        const response = await fetch("http://localhost:4000/api/posts?author_id=${userId}");
         if (response.ok) {
           const data: Post[] = await response.json();
           setPosts(data);
@@ -50,7 +55,7 @@ function HomePage() {
     };
 
     fetchPosts();
-  }, []);
+  }, [userId]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -64,14 +69,32 @@ function HomePage() {
     setSelectedPost(null);
   };
 
-  const filteredPosts = posts.filter((post) =>
-    post.content.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  
+  
+  const filteredPosts = posts.filter((post) => {
+    const matchesSearch = post.content.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesType = selectedType === 2 || post.post_type === selectedType;
+    var matchesPrice = true;
+    if (filterPrice === "Low") {
+      matchesPrice = post.price < 100;
+    } else if (filterPrice === "Medium") {
+      matchesPrice = post.price < 150 && post.price >= 100;
+    } else if (filterPrice === "High") {
+      matchesPrice = post.price > 150;
+    }
+    const matchesStyle = filterStyle === "All" || post.style === filterStyle;
+    return matchesSearch && matchesType && matchesPrice && matchesStyle;
+  }).sort((a,b)=>{
+    const dateA = new Date(a.creation_time).getTime();
+    const dateB = new Date(b.creation_time).getTime();
+
+    return sortDate === "newest" ? dateB - dateA : dateA - dateB;
+  });
 
   return (
     <div className="home-container">
       <header className="home-header">
-        <h1 className="logo" onClick={() => (window.location.href = "/home")}>
+        <h1 className="logo" onClick={() => (window.location.href = `/home`)}>
           PHOTOVERSE
         </h1>
         <div className="search-bar">
@@ -91,6 +114,44 @@ function HomePage() {
           onClick={() => (window.location.href = "/profile")}
         />
       </header>
+      <div className="filters">
+        <div className="filter-top-row">
+          <button className="sort-button" onClick={() => setSortDate("newest")}>Newest</button>
+          <button className="sort-button" onClick={() => setSortDate("oldest")}>Oldest</button>
+        </div>
+        <div className="filter-bottom-row">
+          <select
+            value={selectedType}
+            onChange={(e) => setSelectedType(parseInt(e.target.value, 10))}
+            className="filter-dropdown"
+          >
+            <option value="2">Posts from all users</option>
+            <option value="0">Offerings from photographers</option>
+            <option value="1">Commissions from clients</option>
+          </select>
+          <select
+            value={filterPrice}
+            onChange={(e) => setFilterPrice(e.target.value)}
+            className="filter-dropdown"
+          >
+            <option value="All">Price-Range: All</option>
+            <option value="Low">Below $100</option>
+            <option value="Medium">$100-$150</option>
+            <option value="High">$150+</option>
+          </select>
+          <select
+            value={filterStyle}
+            onChange={(e) => setFilterStyle(e.target.value)}
+            className="filter-dropdown"
+          >
+            <option value="All">All Styles</option>
+            <option value="Portrait">Portrait</option>
+            <option value="Pet">Pet</option>
+            <option value="Nature">Nature</option>
+            <option value="Event">Event</option>
+          </select>
+        </div>
+      </div>
       <div className="post-container">
         {filteredPosts.map((post) => (
           <div

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import search_icon from "../imgs/magnifying-glass.png";
 import user_icon from "../imgs/profile-user.png";
 import "./create.css";
+import { useUser } from "../context/UserContext";
 
 function CreatePost() {
+  const { userId, setUserId } = useUser();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);

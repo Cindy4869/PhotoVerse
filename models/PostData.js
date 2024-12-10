@@ -7,5 +7,5 @@ const PostSchema = new mongoose.Schema({
   img_reference: { type: String },
   creation_time: { type: Date, default: Date.now },
 });
-console.log("Database Name:", mongoose.connection.name);
+
 module.exports = mongoose.model("Post", PostSchema);

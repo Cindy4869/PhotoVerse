@@ -29,6 +29,10 @@
   cursor: pointer;
 }
 
+.logo:hover{
+  filter: brightness(1.5);
+}
+
 .search-bar {
   display: flex;
   flex-direction: row;
@@ -59,8 +63,7 @@
 }
 
 .user-icon:hover {
-  filter: invert(42%) sepia(13%) saturate(546%) hue-rotate(350deg)
-    brightness(94%) contrast(83%);
+  filter: invert(93%) sepia(2%) saturate(2202%) hue-rotate(333deg) brightness(76%) contrast(72%);
 }
 
 .user-info {
@@ -68,6 +71,72 @@
   color: #333;
   cursor: pointer;
 }
+
+.filters{
+  position: fixed;
+  width: 60vw;
+  margin: 15vh 20vw 0 20vw;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+}
+
+.filter-top-row{
+  display: flex;
+  flex-direction: row;
+  gap: 10vw;
+  justify-content: center;
+}
+
+.sort-button {
+  background: none;
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+  /* font-weight: bold; */
+}
+
+.sort-button:hover{
+  color: #AEA298;
+  cursor: pointer;
+}
+
+.filter-bottom-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5vw;
+}
+
+.filter-dropdown{
+  font-size: 1rem;
+  border-radius: 10px;
+  width: 20vw;
+  height: 5vh;
+  text-align: center;
+  background-color: #AEA298;
+}
+
+.filter-dropdown:focus {
+  border-color: #75695C;
+  outline: none;
+}
+.filter-dropdown:hover{
+  cursor: pointer;
+  filter: brightness(1.1);
+}
+
+.filter-dropdown option {
+  padding: 10px;
+  background-color: #CCC3BB;
+  border-radius: 10px;
+}
+.filter-dropdown option:hover {
+  padding: 10px;
+  background-color: #CCC3BB;
+  border-radius: 10px;
+}
+
 
 .post-container {
   width: 80vw;
@@ -93,8 +162,9 @@
   filter: brightness(1);
   transition: transform 0.3s;
 }
-.post-image:hover {
+.post-card:hover {
   filter: brightness(1.1);
+  cursor: pointer;
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 

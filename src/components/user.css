@@ -82,3 +82,51 @@
 .create-post:hover {
   background-color: #aea298;
 }
+
+/* Styles for the user posts */
+.user-post-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #f4f4f4;
+}
+
+.user-post-card {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-post-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.user-post-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.user-post-details p {
+  margin: 0.2rem 0;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.user-post-details p:first-child {
+  font-weight: bold;
+  color: #000;
+}

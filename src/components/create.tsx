@@ -7,13 +7,15 @@ function CreatePost() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
+  const [postType, setPostType] = useState<number>(0); // Default: photographer
+  const [price, setPrice] = useState<number>(0);
+  const [style, setStyle] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearch = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -24,9 +26,12 @@ function CreatePost() {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("post_id", String(Math.floor(Math.random() * 100000))); // Convert number to string
+    formData.append("post_id", String(Math.floor(Math.random() * 100000))); // Generate random post_id
     formData.append("author_id", "1"); // Replace with dynamic user ID
     formData.append("content", description);
+    formData.append("post_type", String(postType)); // Convert number to string
+    formData.append("price", String(price)); // Convert number to string
+    if (style) formData.append("style", style); // Optional
     if (image) formData.append("img_reference", image);
 
     try {
@@ -39,7 +44,7 @@ function CreatePost() {
         const data = await response.json();
         alert("Post created successfully!");
         console.log(data);
-        // window.location.href = "/home";
+        // Redirect or clear the form if needed
       } else {
         const errorData = await response.json();
         alert("Error creating post: " + errorData.error);
@@ -86,6 +91,44 @@ function CreatePost() {
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <input
+          className="text-field"
+          type="text"
+          placeholder="Style (optional)"
+          value={style}
+          onChange={(e) => setStyle(e.target.value)}
+        />
+        <div className="radio-group">
+          <label>
+            <input
+              type="radio"
+              name="postType"
+              value={0}
+              checked={postType === 0}
+              onChange={(e) => setPostType(Number(e.target.value))}
+            />
+            Photographer
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="postType"
+              value={1}
+              checked={postType === 1}
+              onChange={(e) => setPostType(Number(e.target.value))}
+            />
+            Client
+          </label>
+        </div>
+
+        <input
+          className="text-field"
+          type="number"
+          placeholder="Price"
+          value={price}
+          onChange={(e) => setPrice(Number(e.target.value))}
         />
         <input type="file" onChange={handleFileChange} />
         <button type="submit" className="create-post">

@@ -8,6 +8,7 @@ import HomePage from "./components/home";
 import LandingPage from "./components/landing";
 import UserPage from "./components/user";
 import CreatePost from "./components/create";
+import { UserProvider } from "./context/UserContext";
 
 function App() {
   const [showAuth, setShowAuth] = useState(false);
@@ -24,26 +25,29 @@ function App() {
   };
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            !showAuth ? (
-              <LandingPage
-                onLoginClick={handleLoginClick}
-                onSignUpClick={handleSignUpClick}
-              />
-            ) : (
-              <Authentication />
-            )
-          }
-        />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/profile" element={<UserPage />} />
-        <Route path="/create" element={<CreatePost />} />
-      </Routes>
-    </Router>
+    <UserProvider>
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                !showAuth ? (
+                  <LandingPage
+                    onLoginClick={handleLoginClick}
+                    onSignUpClick={handleSignUpClick}
+                  />
+                ) : (
+                  <Authentication />
+                )
+              }
+            />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/profile" element={<UserPage />} />
+            <Route path="/create" element={<CreatePost />} />
+          </Routes>
+        </Router>
+    </UserProvider>
+    
   );
 }
 

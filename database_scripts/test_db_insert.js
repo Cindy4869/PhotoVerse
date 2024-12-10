@@ -3,10 +3,10 @@ const { insertUser, insertPost } = require('./db_insert');
 
 async function createSampleData() {
   const userId = await insertUser({
-    user_id: 1,
-    username: "test_user",
-    email: "test_user@example.com",
-    password: "password1"
+    user_id: 2,
+    username: "test_user2",
+    email: "test_user2@example.com",
+    password: "password2"
   });
 }
 

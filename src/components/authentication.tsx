@@ -3,46 +3,59 @@ import "./authentication.css";
 import auth_img from "../imgs/auth-pic.jpg";
 
 function Authentication() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleToggle = () => {
     setIsLogin(!isLogin);
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // New field
+  const [username, setUsername] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault(); // Prevent page reload
+    setError("");
+
+    // Validate passwords during registration
     if (!isLogin && password !== confirmPassword) {
-      alert("Passwords don't match");
+      setError("Passwords do not match!");
       return;
     }
-    // Store user data in localStorage for simplicity
-    if (!isLogin) {
-      localStorage.setItem(
-        email,
-        JSON.stringify({ username, email, password })
-      );
-      localStorage.setItem("loggedInUser", email);
-      alert("Account created successfully!");
-      window.location.replace("/home");
-    } else {
-      const userData = localStorage.getItem(email);
-      if (userData) {
-        const parsedData = JSON.parse(userData);
-        if (parsedData.password === password) {
-          localStorage.setItem("loggedInUser", email);
-          window.location.replace("/home");
+
+    const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
+    const body = isLogin
+      ? { email, password }
+      : { username, email, password };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        if (isLogin) {
+          // Redirect after successful login
+          window.location.href = `/dashboard?userId=${data.user.user_id}`; // Adjust route
         } else {
-          alert("Incorrect password");
+          alert("Registration successful! Please log in.");
+          setIsLogin(true);
         }
       } else {
-        alert("No account found with this email");
+        setError(data.error || "An error occurred.");
       }
+    } catch (err) {
+      console.error(err);
+      setError("Unable to connect to the server. Please try again later.");
     }
   };
+
+ 
 
   return (
     <div className="auth-page">

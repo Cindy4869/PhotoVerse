@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import search_icon from "../imgs/magnifying-glass.png";
 import user_icon from "../imgs/profile-user.png";
 import "./user.css";
+import { useParams, useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
-import { useParams, useNavigate, useLocation  } from "react-router-dom";
-
 
 type UserData = {
   user_id: number;
@@ -12,43 +11,22 @@ type UserData = {
   email: string;
 };
 
-
 function UserPage() {
-
- 
-  
-  // const { userId, setUserId } = useUser();
+  const { userId, setUserId } = useUser(); // UseParams for cleaner routing
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  // const [userId, setUserId] = useState<number | null>(null);
   const [userPosts, setUserPosts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
 
-  // Parse the query string
-  const params = new URLSearchParams(location.search);
-  const userId = params.get("userId");
-  //   useEffect(() => {
-  //     // Retrieve logged-in user from localStorage
-  //     const loggedInUser = localStorage.getItem("loggedInUser");
-  //     if (loggedInUser) {
-  //       const userData = JSON.parse(localStorage.getItem(loggedInUser) || "{}");
-  //       if (userData.username && userData.userId) {
-  //         setUsername(userData.username);
-  //         setUserId(userData.userId); // Assuming `userId` is stored in localStorage
-  //       }
-  //     } else {
-  //       window.location.replace("/");
-  //     }
-  //   }, []);
-  
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/auth/user/${userId}`);
+        const response = await fetch(
+          `http://localhost:4000/api/auth/user/${userId}`
+        );
         if (response.ok) {
           const data = await response.json();
-          setUserData(data.user); // Populate userData
+          setUserData(data.user);
         } else {
           console.error("Failed to fetch user details");
         }
@@ -59,7 +37,9 @@ function UserPage() {
 
     const fetchUserPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/posts/${userId}`);
+        const response = await fetch(
+          `http://localhost:4000/api/posts/author/${userId}`
+        );
         if (response.ok) {
           const data = await response.json();
           setUserPosts(data);
@@ -82,7 +62,7 @@ function UserPage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedInUser");
+    setUserId(null);
     window.location.replace("/");
   };
 
@@ -120,10 +100,6 @@ function UserPage() {
               <p>User ID: {userData.user_id}</p>
             </>
           )}
-          {/* <h2>{username}</h2>
-          <p>Put personal description here</p> */}
-          {/* <h2>Author ID: 1</h2>
-          <p>Posts created by user with ID 1</p> */}
           <button
             className="create-post"
             onClick={() => (window.location.href = `/create?userId=${userId}`)}

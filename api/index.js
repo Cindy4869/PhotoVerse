@@ -1,6 +1,6 @@
 var express = require("express"),
   mongoose = require("mongoose"),
-  secrets = require("./config/secrets"),
+  secrets = require("../config/secrets"),
   bodyParser = require("body-parser"),
   router = express.Router();
 
@@ -30,7 +30,9 @@ app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-require("./routes")(app, router);
+require("../routes")(app, router);
 
 app.listen(port);
 console.log("Server running on port " + port);
+
+module.exports = app;

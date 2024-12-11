@@ -27,29 +27,56 @@
 //     </UserContext.Provider>
 //   );
 // };
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+  useCallback,
+} from "react";
 
 interface UserContextProps {
-    userId: string | null;
-    setUserId: (id: string) => void;
+  userId: string | null;
+  setUserId: (id: string | null) => void;
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [userId, setUserId] = useState<string | null>(null);
+export const UserProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [userId, setUserId] = useState<string | null>(null);
 
-    return (
-        <UserContext.Provider value={{ userId, setUserId }}>
-            {children}
-        </UserContext.Provider>
-    );
+  useEffect(() => {
+    setUserId(localStorage.getItem("loggedInUser"));
+  }, []);
+
+  const setUserIdComposed = useCallback((id: string | null) => {
+    setUserId(id);
+    if (id) {
+      localStorage.setItem("loggedInUser", id);
+    } else {
+      localStorage.removeItem("loggedInUser");
+    }
+  }, []);
+
+  return (
+    <UserContext.Provider
+      value={{
+        userId,
+        setUserId: setUserIdComposed,
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useUser = () => {
-    const context = useContext(UserContext);
-    if (!context) {
-        throw new Error('useUser must be used within a UserProvider');
-    }
-    return context;
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
 };

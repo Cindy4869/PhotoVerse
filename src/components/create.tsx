@@ -4,7 +4,7 @@ import user_icon from "../imgs/profile-user.png";
 import "./create.css";
 import { useUser } from "../context/UserContext";
 import { useLocation } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
   // const { userId, setUserId } = useUser();
@@ -16,10 +16,8 @@ function CreatePost() {
   const [style, setStyle] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
-
-  // Parse the query string
-  const params = new URLSearchParams(location.search);
-  const userId = params.get("userId");
+  const navigate = useNavigate();
+  const { userId } = useUser();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -40,7 +38,7 @@ function CreatePost() {
       formData.append("author_id", userId);
     } else {
       console.error("userId is null.");
-    }// Replace with dynamic user ID
+    } // Replace with dynamic user ID
     formData.append("content", description);
     formData.append("post_type", String(postType)); // Convert number to string
     formData.append("price", String(price)); // Convert number to string
@@ -71,7 +69,7 @@ function CreatePost() {
   return (
     <div className="create-page">
       <header className="create-header">
-        <h1 className="logo" onClick={() => (window.location.href = `/home?userId=${userId}`)}>
+        <h1 className="logo" onClick={() => navigate(`/home?userId=${userId}`)}>
           PHOTOVERSE
         </h1>
         <div className="search-bar">

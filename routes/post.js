@@ -9,7 +9,8 @@ module.exports = function (router) {
   const postsRoute = router.route("/posts");
   // Route for a specific post by ID
   const postsIdRoute = router.route("/posts/:id");
-
+  // Route for all posts by author_id
+  const postsAuthorRoute = router.route("/posts/author/:author_id");
   /**
    * POST /api/posts - Create a new post
    */
@@ -67,7 +68,7 @@ module.exports = function (router) {
   /**
    * GET /api/posts - Get all posts by author_id
    */
-  postsRoute.get(async (req, res) => {
+  postsAuthorRoute.get(async (req, res) => {
     try {
       const posts = await PostData.find({ author_id: req.params.author_id });
       res.status(200).json(posts);

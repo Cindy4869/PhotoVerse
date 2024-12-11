@@ -6,12 +6,11 @@ import "./modal.css";
 import { useUser } from "../context/UserContext";
 // import { time } from "console";
 import { useLocation } from "react-router-dom";
-
-
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   // const { userId, setUserId } = useUser();
-  
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState(2);
   const [sortDate, setSortDate] = useState<"newest" | "oldest">("newest");
@@ -19,12 +18,9 @@ function HomePage() {
   const [filterStyle, setFilterStyle] = useState("All");
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
-  const location = useLocation();
+  const navigate = useNavigate();
+  const { userId } = useUser();
 
-  // Parse the query string
-  const params = new URLSearchParams(location.search);
-  const userId = params.get("userId");
-  
   type Post = {
     post_id: number;
     author_id: number;
@@ -37,17 +33,12 @@ function HomePage() {
   };
 
   useEffect(() => {
-    
-    // if (!user) {
-    //   
-    //   window.location.replace("/au");
-      
-      
-    // }
     // Fetch posts from backend
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/posts?author_id=${userId}`);
+        const response = await fetch(
+          `http://localhost:4000/api/posts?author_id=${userId}`
+        );
         if (response.ok) {
           const data: Post[] = await response.json();
           setPosts(data);
@@ -74,32 +65,34 @@ function HomePage() {
     setSelectedPost(null);
   };
 
-  
-  
-  const filteredPosts = posts.filter((post) => {
-    const matchesSearch = post.content.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesType = selectedType === 2 || post.post_type === selectedType;
-    var matchesPrice = true;
-    if (filterPrice === "Low") {
-      matchesPrice = post.price < 100;
-    } else if (filterPrice === "Medium") {
-      matchesPrice = post.price < 150 && post.price >= 100;
-    } else if (filterPrice === "High") {
-      matchesPrice = post.price > 150;
-    }
-    const matchesStyle = filterStyle === "All" || post.style === filterStyle;
-    return matchesSearch && matchesType && matchesPrice && matchesStyle;
-  }).sort((a,b)=>{
-    const dateA = new Date(a.creation_time).getTime();
-    const dateB = new Date(b.creation_time).getTime();
+  const filteredPosts = posts
+    .filter((post) => {
+      const matchesSearch = post.content
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesType = selectedType === 2 || post.post_type === selectedType;
+      var matchesPrice = true;
+      if (filterPrice === "Low") {
+        matchesPrice = post.price < 100;
+      } else if (filterPrice === "Medium") {
+        matchesPrice = post.price < 150 && post.price >= 100;
+      } else if (filterPrice === "High") {
+        matchesPrice = post.price > 150;
+      }
+      const matchesStyle = filterStyle === "All" || post.style === filterStyle;
+      return matchesSearch && matchesType && matchesPrice && matchesStyle;
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.creation_time).getTime();
+      const dateB = new Date(b.creation_time).getTime();
 
-    return sortDate === "newest" ? dateB - dateA : dateA - dateB;
-  });
+      return sortDate === "newest" ? dateB - dateA : dateA - dateB;
+    });
 
   return (
     <div className="home-container">
       <header className="home-header">
-        <h1 className="logo" onClick={() => (window.location.href = `/home?userId=${userId}`)}>
+        <h1 className="logo" onClick={() => navigate(`/home?userId=${userId}`)}>
           PHOTOVERSE
         </h1>
         <div className="search-bar">
@@ -116,13 +109,17 @@ function HomePage() {
           src={user_icon}
           alt="User profile"
           className="user-icon"
-          onClick={() => (window.location.href = `/profile?userId=${userId}`)}
+          onClick={() => navigate(`/profile?userId=${userId}`)}
         />
       </header>
       <div className="filters">
         <div className="filter-top-row">
-          <button className="sort-button" onClick={() => setSortDate("newest")}>Newest</button>
-          <button className="sort-button" onClick={() => setSortDate("oldest")}>Oldest</button>
+          <button className="sort-button" onClick={() => setSortDate("newest")}>
+            Newest
+          </button>
+          <button className="sort-button" onClick={() => setSortDate("oldest")}>
+            Oldest
+          </button>
         </div>
         <div className="filter-bottom-row">
           <select

@@ -2,8 +2,11 @@ import { useState } from "react";
 import "./authentication.css";
 import auth_img from "../imgs/auth-pic.jpg";
 import { useUser } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Authentication() {
+  const navigate = useNavigate();
+
   const handleToggle = () => {
     setIsLogin(!isLogin);
   };
@@ -41,9 +44,9 @@ function Authentication() {
       if (response.ok) {
         if (isLogin) {
           // Redirect after successful login
-          setUserId(data.user.user_Id);
+          setUserId(data.user.user_id);
 
-          window.location.href = `/home?userId=${data.user.user_id}`;
+          navigate(`/home`);
         } else {
           alert("Registration successful! Please log in.");
           setIsLogin(true);

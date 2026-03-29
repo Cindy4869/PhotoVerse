@@ -15,6 +15,7 @@ function CreatePost() {
   const [price, setPrice] = useState<number>(0);
   const [style, setStyle] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [contactInfo, setContactInfo] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const { userId } = useUser();
@@ -44,6 +45,7 @@ function CreatePost() {
     formData.append("price", String(price)); // Convert number to string
     if (style) formData.append("style", style); // Optional
     if (image) formData.append("img_reference", image);
+    if (contactInfo) formData.append("contact_info", contactInfo);
 
     try {
       const response = await fetch("http://localhost:4000/api/posts", {
@@ -103,7 +105,13 @@ function CreatePost() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-
+        <input
+          className="text-field"
+          type="text"
+          placeholder="Contact Information"
+          value={contactInfo}
+          onChange={(e) => setContactInfo(e.target.value)}
+        />
         <input
           className="text-field"
           type="text"

@@ -6,10 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 function Authentication() {
   const navigate = useNavigate();
-
-  const handleToggle = () => {
-    setIsLogin(!isLogin);
-  };
+  
+  
+  
   const { setUserId } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,13 +18,16 @@ function Authentication() {
   const [error, setError] = useState("");
 
   const API_BASE_URL = "http://localhost:4000/api/auth";
-
+  const handleToggle = () => {
+    setIsLogin(!isLogin);
+  };
+  console.log(isLogin);
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault(); // Prevent page reload
     setError("");
 
     // Validate passwords during registration
-    if (!isLogin && password !== confirmPassword) {
+    if (!isLogin && (password !== confirmPassword)) {
       setError("Passwords do not match!");
       return;
     }
@@ -46,7 +48,7 @@ function Authentication() {
           // Redirect after successful login
           setUserId(data.user.user_id);
 
-          navigate(`/home`);
+          navigate(`/home?userId={userId}`);
         } else {
           alert("Registration successful! Please log in.");
           setIsLogin(true);
@@ -59,7 +61,7 @@ function Authentication() {
       setError("Unable to connect to the server. Please try again later.");
     }
   };
-
+  console.log("isLogin:", isLogin);
   return (
     <div className="auth-page">
       <img src={auth_img} id="auth-img" alt="Authentication" />

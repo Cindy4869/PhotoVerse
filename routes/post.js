@@ -16,7 +16,7 @@ module.exports = function (router) {
    */
   postsRoute.post(upload.single("img_reference"), async (req, res) => {
     try {
-      const { post_id, author_id, content, post_type, price, style } = req.body;
+      const { post_id, author_id, content, post_type, price, style, contact_info } = req.body;
       const img_reference = req.file ? req.file.filename : undefined; // Handle uploaded file
 
       // Validate required fields
@@ -25,7 +25,8 @@ module.exports = function (router) {
         !author_id ||
         !content ||
         post_type === undefined ||
-        !price
+        !price ||
+        !contact_info
       ) {
         return res.status(400).json({ error: "Missing required fields" });
       }
@@ -39,6 +40,7 @@ module.exports = function (router) {
         post_type,
         price,
         style,
+        contact_info
       });
 
       // Save to database

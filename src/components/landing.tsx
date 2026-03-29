@@ -20,9 +20,9 @@ function LandingPage({
         <button onClick={onLoginClick} className="landing-button">
           LOG IN
         </button>
-        <button onClick={onSignUpClick} className="landing-button">
+        {/* <button onClick={onSignUpClick} className="landing-button">
           SIGN UP
-        </button>
+        </button> */}
       </div>
     </div>
   );

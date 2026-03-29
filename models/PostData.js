@@ -9,6 +9,7 @@ const PostSchema = new mongoose.Schema({
   post_type: { type: Number, required: true }, // 0 = photographer, 1 = client
   price: { type: Number, required: true },
   style: { type: String },
+  contact_info: { type: String },
 });
 
 module.exports = mongoose.model("Post", PostSchema);

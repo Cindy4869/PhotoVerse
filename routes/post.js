@@ -1,8 +1,8 @@
 const express = require("express");
 const PostData = require("../models/PostData"); // Import the Post model
-const multer = require("multer");
+// const multer = require("multer");
 
-const upload = multer({ dest: "uploads/" }); // Save files to `uploads/` directory
+// const upload = multer({ dest: "uploads/" }); // Save files to `uploads/` directory
 
 module.exports = function (router) {
   // Route for all posts
@@ -14,10 +14,12 @@ module.exports = function (router) {
   /**
    * POST /api/posts - Create a new post
    */
-  postsRoute.post(upload.single("img_reference"), async (req, res) => {
+  // upload.single("img_reference"),
+  postsRoute.post( async (req, res) => {
     try {
       const { post_id, author_id, content, post_type, price, style, contact_info } = req.body;
-      const img_reference = req.file ? req.file.filename : undefined; // Handle uploaded file
+      // const img_reference = req.file ? req.file.filename : undefined; // Handle uploaded file
+      const img_reference = undefined
 
       // Validate required fields
       if (

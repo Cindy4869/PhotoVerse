@@ -11,8 +11,8 @@
 # production
 /build
 
-# config
-/config/secrets.js
+# # config
+# /config/secrets.js
 
 # misc
 .DS_Store
